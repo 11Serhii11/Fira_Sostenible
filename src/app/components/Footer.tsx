@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
 import { Heart } from 'lucide-react';
-
-const footerLogoSrc = '/images/logo-fira-reviu.png';
+import footerLogoSrc from '../../assets/images/logo-fira-reviu.png?url';
 
 const hashtags = ['#IFiraSolidària', '#InstitutPoblenou', '#Reviu', '#AREP', '#SantJordi'];
 

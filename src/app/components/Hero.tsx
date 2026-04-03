@@ -1,8 +1,7 @@
 import { motion } from 'motion/react';
 import { Calendar, MapPin, ArrowDown } from 'lucide-react';
 import { Button } from './ui/button';
-
-const heroLogoSrc = '/images/logo-reciclaje-rosa.png';
+import heroLogoSrc from '../../assets/images/logo-reciclaje-rosa.png?url';
 
 export function Hero() {
   return (

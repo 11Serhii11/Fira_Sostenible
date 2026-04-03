@@ -2,9 +2,8 @@ import { motion } from 'motion/react';
 import { useInView } from 'motion/react';
 import { useRef } from 'react';
 import { Heart, Users, TrendingUp } from 'lucide-react';
-
-const arepLogoSrc = '/images/logo-arep.png';
 import { Button } from './ui/button';
+import arepLogoSrc from '../../assets/images/logo-arep.png?url';
 
 const benefits = [
   {
@@ -46,8 +45,8 @@ export function ArepSection() {
                 src={arepLogoSrc}
                 alt="AREP per la salut mental"
                 className="w-56 md:w-72 lg:w-80 h-auto object-contain drop-shadow-lg"
-                width={320}
-                height={120}
+                width={461}
+                height={156}
                 decoding="async"
               />
             </div>
