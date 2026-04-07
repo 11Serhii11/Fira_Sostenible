@@ -48,10 +48,10 @@ export function Hero({ content }: { content: HeroContent }) {
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#e8f1ff] via-[#eef6fb] to-[#edf8f2] dark:from-[#0f172a] dark:via-[#0f1b32] dark:to-[#102028] transition-colors duration-700">
       <div
-        className="absolute inset-0 pointer-events-none bg-center bg-cover bg-no-repeat opacity-[0.16] dark:opacity-[0.12]"
+        className="absolute inset-0 pointer-events-none bg-center bg-cover bg-no-repeat opacity-[0.35] dark:opacity-[0.25]"
         style={{ backgroundImage: "url('/images/hero-fira-bg.png')" }}
       />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#e8f1ff]/85 via-[#eef6fb]/80 to-[#edf8f2]/88 dark:from-[#0f172a]/88 dark:via-[#0f1b32]/86 dark:to-[#102028]/90" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#e8f1ff]/60 via-[#eef6fb]/55 to-[#edf8f2]/65 dark:from-[#0f172a]/70 dark:via-[#0f1b32]/65 dark:to-[#102028]/75" />
       <div className="absolute inset-0 pointer-events-none">
         <div className="aurora-blob-1 absolute top-[5%] left-[10%] w-[500px] h-[500px] rounded-full blur-[130px]" style={{ background: "radial-gradient(circle, rgba(10,111,190,0.12) 0%, transparent 70%)" }} />
         <div className="aurora-blob-2 absolute bottom-[10%] right-[5%] w-[450px] h-[450px] rounded-full blur-[120px]" style={{ background: "radial-gradient(circle, rgba(111,167,111,0.12) 0%, transparent 70%)" }} />
@@ -78,8 +78,8 @@ export function Hero({ content }: { content: HeroContent }) {
           ))}
         </motion.div>
 
-        <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }} className="max-w-lg text-sm md:text-base leading-relaxed mb-6 text-slate-500 dark:text-slate-300">
-          {content.description}
+        <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }} className="max-w-lg text-sm md:text-base leading-relaxed mb-6 font-bold text-slate-700 dark:text-white">
+          Una fira creada per l'alumnat amb un objectiu clar: generar impacte social real a traves del comerc, la creativitat i la solidaritat.
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.45 }} className="flex items-center gap-2 md:gap-3 mb-3">
@@ -99,7 +99,7 @@ export function Hero({ content }: { content: HeroContent }) {
           ))}
         </motion.div>
 
-        <p className="mb-4 text-xs uppercase tracking-[0.15em] text-slate-500 dark:text-slate-300">{content.countdownDateText}</p>
+        <p className="mb-4 text-xs uppercase tracking-[0.15em] font-bold text-slate-700 dark:text-white">La fira es el 23 d'abril de 2026</p>
 
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.55 }} className="flex flex-wrap items-center justify-center gap-2 mb-6">
           <span className="px-4 py-2 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 dark:bg-white/5 dark:border-white/10 dark:text-slate-300">
