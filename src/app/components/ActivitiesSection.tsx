@@ -8,115 +8,113 @@ const activities = [
   {
     icon: ShoppingBag,
     title: 'Roba de segona mà',
-    description: 'Preparada i reutilitzada per l\'alumnat',
+    description: 'Preparada i reutilitzada per l\'alumnat. Moda circular que dona vida a noves històries.',
     color: '#0A6FBE',
-    glowColor: 'rgba(10, 111, 190, 0.3)',
+    tag: 'Moda',
   },
   {
     icon: BookOpen,
     title: 'Llibres de segona mà',
-    description: 'Preparats i revisats per l\'alumnat',
+    description: 'Revisats i preparats amb cura per donar-los una nova oportunitat.',
     color: '#6FA76F',
-    glowColor: 'rgba(111, 167, 111, 0.3)',
+    tag: 'Cultura',
   },
   {
     icon: Sparkles,
     title: 'Productes solidaris',
-    description: 'Creats pels diferents cicles',
+    description: 'Creats pels diferents cicles amb creativitat i compromís.',
     color: '#0891b2',
-    glowColor: 'rgba(8, 145, 178, 0.3)',
+    tag: 'Artesania',
   },
   {
     icon: Users,
     title: 'Tallers i activitats',
-    description: 'Per a tots els més petits',
+    description: 'Tallers creatius, jocs i dinàmiques per a totes les edats.',
     color: '#9333ea',
-    glowColor: 'rgba(147, 51, 234, 0.3)',
+    tag: 'Experiència',
   },
 ];
 
-function TiltCard({ activity, index, isInView }: { activity: typeof activities[0]; index: number; isInView: boolean }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const { isDark } = useTheme();
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: y * -12, y: x * 12 });
-  };
-
-  const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
+function BentoCard({ activity, index, isInView, isDark }: { activity: typeof activities[0]; index: number; isInView: boolean; isDark: boolean }) {
+  const [hovered, setHovered] = useState(false);
+  const isFeatured = index === 0;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay: index * 0.12 }}
-      className="perspective-container"
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+      className={isFeatured ? 'sm:row-span-2' : ''}
     >
       <div
-        className="rounded-3xl p-8 text-center group cursor-default relative overflow-hidden transition-all duration-500"
+        className={`h-full rounded-2xl group cursor-default relative overflow-hidden transition-all duration-500 ${
+          isFeatured ? 'p-8' : 'p-6'
+        }`}
         style={{
-          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-          transition: 'transform 0.3s ease-out, background 0.7s, border-color 0.7s, box-shadow 0.7s',
-          ...(isDark ? {
-            background: 'rgba(255,255,255,0.03)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.06)',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08)',
-          } : {
-            background: 'rgba(255,255,255,0.75)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(0,0,0,0.06)',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)',
-          }),
+          background: hovered
+            ? isDark ? `${activity.color}30` : `${activity.color}18`
+            : isDark ? 'rgba(255,255,255,0.04)' : '#f8fafc',
+          border: hovered
+            ? `1px solid ${activity.color}60`
+            : isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #e2e8f0',
+          boxShadow: hovered
+            ? `0 12px 40px ${activity.color}30`
+            : isDark ? '0 2px 16px rgba(0,0,0,0.2)' : '0 2px 12px rgba(0,0,0,0.06)',
         }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
-        {/* Hover glow */}
+        {/* Corner accent */}
         <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl"
+          className="absolute top-0 right-0 w-24 h-24 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
           style={{
-            background: `radial-gradient(circle at 50% 0%, ${activity.glowColor}, transparent 70%)`,
+            background: `radial-gradient(circle at top right, ${activity.color}${isDark ? '12' : '08'}, transparent 70%)`,
           }}
         />
 
-        {/* Top shimmer line */}
-        <div
-          className="absolute top-0 left-0 w-full h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{ background: `linear-gradient(90deg, transparent, ${activity.color}40, transparent)` }}
-        />
-
-        <div className="relative z-10">
-          <motion.div
-            className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-2xl"
-            style={{
-              background: `${activity.color}10`,
-              border: `1px solid ${activity.color}25`,
-            }}
-            whileHover={{ rotate: 360, scale: 1.1 }}
-            transition={{ duration: 0.6 }}
+        <div className="relative z-10 flex flex-col h-full">
+          {/* Tag */}
+          <span
+            className="inline-block self-start text-[9px] uppercase tracking-[0.25em] px-2.5 py-1 rounded-full mb-4"
+            style={{ color: activity.color, background: `${activity.color}10`, border: `1px solid ${activity.color}18` }}
           >
-            <activity.icon
-              size={32}
-              style={{ color: activity.color, filter: `drop-shadow(0 0 6px ${activity.glowColor})` }}
-            />
-          </motion.div>
+            {activity.tag}
+          </span>
 
+          {/* Icon */}
+          <div
+            className={`rounded-xl flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110 ${
+              isFeatured ? 'w-14 h-14' : 'w-12 h-12'
+            }`}
+            style={{ background: `${activity.color}12`, border: `1px solid ${activity.color}20` }}
+          >
+            <activity.icon size={isFeatured ? 28 : 22} style={{ color: activity.color }} />
+          </div>
+
+          {/* Content */}
           <h3
-            className="text-xl font-semibold mb-3 transition-colors duration-700"
-            style={{ color: isDark ? 'rgba(255,255,255,0.9)' : '#1e293b' }}
+            className={`font-bold mb-2 ${isFeatured ? 'text-xl' : 'text-base'}`}
+            style={{ color: isDark ? '#fff' : '#1e293b' }}
           >
             {activity.title}
           </h3>
           <p
-            className="leading-relaxed text-sm transition-colors duration-700"
-            style={{ color: isDark ? 'rgba(255,255,255,0.4)' : '#64748b' }}
+            className={`leading-relaxed ${isFeatured ? 'text-sm' : 'text-xs'}`}
+            style={{ color: isDark ? 'rgba(255,255,255,0.45)' : '#64748b' }}
           >
             {activity.description}
           </p>
+
+          {/* Bottom bar on hover */}
+          <div className="mt-auto pt-4">
+            <div
+              className="h-[2px] rounded-full transition-all duration-700"
+              style={{
+                width: hovered ? '60px' : '0px',
+                background: `linear-gradient(90deg, ${activity.color}, transparent)`,
+              }}
+            />
+          </div>
         </div>
       </div>
     </motion.div>
@@ -130,37 +128,44 @@ export function ActivitiesSection() {
 
   return (
     <section
+      id="activities"
       ref={ref}
-      className="relative py-28 overflow-hidden transition-colors duration-700"
-      style={{ background: isDark ? '#0f172a' : '#f0f4f8' }}
+      className="relative pt-36 pb-20 overflow-hidden transition-colors duration-700 scroll-mt-28"
+      style={{ background: isDark ? '#111a2e' : '#f0f4f8' }}
     >
-      {/* Soft blobs */}
-      <div
-        className="aurora-blob-1 absolute top-[10%] left-[-10%] w-[400px] h-[400px] rounded-full blur-[100px]"
-        style={{
-          background: isDark
-            ? 'radial-gradient(circle, rgba(111,167,111,0.1) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(111,167,111,0.06) 0%, transparent 70%)',
-        }}
-      />
-
       <div className="crystal-divider absolute top-0 left-0 right-0" />
 
       <div className="container mx-auto px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16 transition-colors duration-700"
-          style={{ color: isDark ? '#ffffff' : '#1e293b' }}
-        >
-          Què hi <span className="holo-text">trobaràs</span>?
-        </motion.h2>
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-8"
+          >
+            <span
+              className="inline-block text-[11px] uppercase tracking-[0.25em] mb-3 px-3 py-1 rounded-full"
+              style={isDark
+                ? { color: '#6FA76F', background: 'rgba(111,167,111,0.08)', border: '1px solid rgba(111,167,111,0.15)' }
+                : { color: '#6FA76F', background: 'rgba(111,167,111,0.06)', border: '1px solid rgba(111,167,111,0.15)' }
+              }
+            >
+              Activitats
+            </span>
+            <h2
+              className="text-3xl md:text-4xl font-bold"
+              style={{ color: isDark ? '#fff' : '#1e293b' }}
+            >
+              Què hi <span className="holo-text">trobaràs</span>?
+            </h2>
+          </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {activities.map((activity, index) => (
-            <TiltCard key={index} activity={activity} index={index} isInView={isInView} />
-          ))}
+          {/* Bento grid — first card spans 2 rows */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-auto">
+            {activities.map((activity, index) => (
+              <BentoCard key={index} activity={activity} index={index} isInView={isInView} isDark={isDark} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

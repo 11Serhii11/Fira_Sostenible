@@ -1,204 +1,138 @@
 import { motion } from 'motion/react';
 import { useInView } from 'motion/react';
-import { useRef } from 'react';
-import { Heart, Users, TrendingUp } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { Heart, Users, TrendingUp, ExternalLink } from 'lucide-react';
 import arepLogoSrc from '../../assets/images/logo-arep.png?url';
 import { useTheme } from '../App';
 
 const benefits = [
-  {
-    icon: Users,
-    text: 'Promoure la inclusió social',
-  },
-  {
-    icon: Heart,
-    text: 'Donar suport a persones en situació de vulnerabilitat',
-  },
-  {
-    icon: TrendingUp,
-    text: 'Generar oportunitats reals de millora',
-  },
+  { icon: Users, text: 'Promoure la inclusió social', color: '#c026d3' },
+  { icon: Heart, text: 'Suport a persones vulnerables', color: '#ec4899' },
+  { icon: TrendingUp, text: 'Oportunitats reals de millora', color: '#9333ea' },
 ];
+
+function BenefitCard({ b, index, isInView, isDark }: { b: typeof benefits[0]; index: number; isInView: boolean; isDark: boolean }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
+      className="rounded-xl p-4 text-center cursor-default"
+      style={{
+        background: hovered
+          ? isDark ? `${b.color}30` : `${b.color}18`
+          : isDark ? 'rgba(255,255,255,0.03)' : 'rgba(147,51,234,0.03)',
+        border: hovered
+          ? `1px solid ${b.color}60`
+          : isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(147,51,234,0.1)',
+        boxShadow: hovered ? `0 8px 25px ${b.color}30` : 'none',
+        transition: 'all 0.4s ease',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <b.icon size={20} className="mx-auto mb-2" style={{ color: b.color }} />
+      <p className="text-xs font-medium" style={{ color: isDark ? 'rgba(255,255,255,0.5)' : '#475569' }}>
+        {b.text}
+      </p>
+    </motion.div>
+  );
+}
 
 export function ArepSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
   const { isDark } = useTheme();
 
   return (
     <section
+      id="arep"
       ref={ref}
-      className="relative py-28 overflow-hidden transition-colors duration-700"
-      style={{ background: isDark ? '#0f172a' : '#f0f4f8' }}
+      className="relative pt-36 pb-20 overflow-hidden transition-colors duration-700 scroll-mt-28"
+      style={{ background: isDark ? '#111a2e' : '#f0f4f8' }}
     >
-      {/* Purple blobs */}
-      <div
-        className="aurora-blob-1 absolute top-[-10%] left-[20%] w-[400px] h-[400px] rounded-full blur-[120px]"
-        style={{
-          background: isDark
-            ? 'radial-gradient(circle, rgba(158,42,158,0.1) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(158,42,158,0.06) 0%, transparent 70%)',
-        }}
-      />
-
       <div className="crystal-divider absolute top-0 left-0 right-0" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-7xl mx-auto space-y-14">
+        <div className="max-w-5xl mx-auto">
 
-          {/* Logo + Title */}
+          {/* Main card */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="grid md:grid-cols-2 gap-10 items-center"
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="gradient-border gradient-border-purple rounded-2xl overflow-hidden"
           >
-            {/* Logo with reflection */}
-            <div className="flex flex-col items-center">
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative"
-              >
-                <div
-                  className="absolute inset-0 blur-[40px] transition-opacity duration-700"
-                  style={{
-                    background: 'radial-gradient(circle, rgba(158,42,158,0.4), transparent 70%)',
-                    opacity: isDark ? 0.2 : 0.1,
-                  }}
-                />
-                <img
-                  src={arepLogoSrc}
-                  alt="AREP per la salut mental"
-                  className="relative w-56 md:w-72 lg:w-80 h-auto object-contain"
-                  width={461}
-                  height={156}
-                  decoding="async"
-                />
-              </motion.div>
-              {/* Reflection */}
-              <div className="w-56 md:w-72 lg:w-80 overflow-hidden" style={{ height: '45px' }}>
-                <img
-                  src={arepLogoSrc}
-                  alt=""
-                  aria-hidden="true"
-                  className="w-full max-h-[45px] object-contain blur-[2px] transition-opacity duration-700"
-                  style={{
-                    opacity: isDark ? 0.1 : 0.06,
-                    transform: 'scaleY(-1)',
-                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.3), transparent 80%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.3), transparent 80%)',
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="space-y-5 text-center md:text-left">
-              <h2 className="text-4xl md:text-5xl font-bold">
-                <span className="holo-text-purple">Fundació AREP</span>
-              </h2>
-              <p
-                className="text-lg md:text-xl leading-relaxed transition-colors duration-700"
-                style={{ color: isDark ? 'rgba(255,255,255,0.45)' : '#64748b' }}
-              >
-                Aquest any, parts dels beneficis de la fira es destinen a la Fundació AREP, una entitat que treballa per millorar la qualitat de vida de persones amb problemes de salut mental i les seves famílies.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-xl md:text-2xl text-center font-semibold"
-            style={{ color: '#c026d3' }}
-          >
-            Amb la teva participació ajudes a:
-          </motion.p>
-
-          {/* Benefit Cards */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                className="gradient-border gradient-border-purple rounded-3xl p-7 text-center group cursor-default relative overflow-hidden transition-all duration-500"
-                style={isDark ? {
-                  background: 'rgba(255,255,255,0.03)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
-                } : {
-                  background: 'rgba(255,255,255,0.75)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(158,42,158,0.1)',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
-                }}
-                whileHover={{
-                  y: -6,
-                  transition: { duration: 0.3 },
-                }}
-              >
-                {/* Hover glow */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: isDark
-                      ? 'radial-gradient(circle at 50% 0%, rgba(158,42,158,0.15), transparent 70%)'
-                      : 'radial-gradient(circle at 50% 0%, rgba(158,42,158,0.08), transparent 70%)',
-                  }}
-                />
-
-                <div className="relative z-10">
-                  <motion.div
-                    className="mb-5 inline-flex items-center justify-center w-14 h-14 rounded-2xl"
-                    style={{
-                      background: 'rgba(158,42,158,0.08)',
-                      border: '1px solid rgba(158,42,158,0.2)',
-                    }}
-                    whileHover={{ rotate: 360, scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <benefit.icon
-                      size={28}
-                      style={{ color: '#c026d3', filter: 'drop-shadow(0 0 6px rgba(192,38,211,0.4))' }}
-                    />
-                  </motion.div>
-                  <p
-                    className="text-sm md:text-base transition-colors duration-700"
-                    style={{ color: isDark ? 'rgba(255,255,255,0.5)' : '#475569' }}
-                  >
-                    {benefit.text}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="flex justify-center"
-          >
-            <button
-              className="btn-glass text-lg px-10 py-4 rounded-full font-semibold cursor-pointer transition-all duration-500"
+            <div
+              className="p-6 md:p-10"
               style={{
-                color: '#ffffff',
-                background: isDark ? 'rgba(158,42,158,0.2)' : 'rgba(158,42,158,0.85)',
-                border: isDark ? '1px solid rgba(158,42,158,0.4)' : '1px solid rgba(158,42,158,0.9)',
-                boxShadow: isDark
-                  ? '0 0 20px rgba(158,42,158,0.2)'
-                  : '0 4px 20px rgba(158,42,158,0.3)',
+                background: isDark ? 'rgba(255,255,255,0.02)' : '#ffffff',
+                backdropFilter: 'blur(20px)',
+                boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.2)' : '0 2px 12px rgba(0,0,0,0.06)',
               }}
             >
-              Fes una donació
-            </button>
+              {/* Logo + Info row */}
+              <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 mb-8">
+                <motion.div
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="flex-shrink-0"
+                >
+                  <img
+                    src={arepLogoSrc}
+                    alt="AREP per la salut mental"
+                    className="w-44 md:w-52 h-auto object-contain"
+                    width={461} height={156} decoding="async"
+                  />
+                </motion.div>
+                <div className="text-center md:text-left">
+                  <span
+                    className="inline-block text-[11px] uppercase tracking-[0.25em] mb-2 px-3 py-1 rounded-full"
+                    style={isDark
+                      ? { color: '#c026d3', background: 'rgba(192,38,211,0.08)', border: '1px solid rgba(192,38,211,0.15)' }
+                      : { color: '#9333ea', background: 'rgba(147,51,234,0.06)', border: '1px solid rgba(147,51,234,0.15)' }
+                    }
+                  >
+                    Col·laborador solidari
+                  </span>
+                  <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                    <span className="holo-text-purple">Fundació AREP</span>
+                  </h2>
+                  <p className="text-sm leading-relaxed" style={{ color: isDark ? 'rgba(255,255,255,0.45)' : '#64748b' }}>
+                    Parts dels beneficis de la fira es destinen a la Fundació AREP, una entitat que treballa per millorar la qualitat de vida de persones amb problemes de salut mental.
+                  </p>
+                </div>
+              </div>
+
+              {/* Benefits */}
+              <p className="text-sm text-center font-semibold mb-4" style={{ color: '#c026d3' }}>
+                Amb la teva participació ajudes a:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                {benefits.map((b, i) => (
+                  <BenefitCard key={i} b={b} index={i} isInView={isInView} isDark={isDark} />
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  className="btn-glass text-sm px-7 py-3 rounded-full font-semibold text-white cursor-pointer inline-flex items-center gap-2"
+                  style={{
+                    background: isDark ? 'rgba(158,42,158,0.2)' : 'rgba(158,42,158,0.85)',
+                    border: isDark ? '1px solid rgba(158,42,158,0.4)' : '1px solid rgba(158,42,158,0.9)',
+                    boxShadow: isDark ? '0 0 15px rgba(158,42,158,0.15)' : '0 4px 15px rgba(158,42,158,0.2)',
+                  }}
+                >
+                  Fes una donació <Heart size={14} />
+                </button>
+                <a href="#" className="text-xs font-medium inline-flex items-center gap-1" style={{ color: isDark ? 'rgba(255,255,255,0.35)' : '#94a3b8' }}>
+                  Coneix la fundació <ExternalLink size={12} />
+                </a>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
