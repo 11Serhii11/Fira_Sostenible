@@ -41,7 +41,7 @@ export function ParticipateSection({ content }: { content: ParticipateContent })
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
-    <section ref={ref} className="h-full">
+    <section id="participate" ref={ref} className="h-full">
       <motion.article
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}

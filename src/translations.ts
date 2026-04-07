@@ -2,6 +2,11 @@ export type Lang = "ca" | "es" | "en";
 
 export const translations = {
   ca: {
+    nav: {
+      home: "Inici",
+      fair: "La Fira",
+      arep: "AREP",
+    },
     controls: {
       toggleTheme: "Canvia el mode clar/fosc",
     },
@@ -15,11 +20,24 @@ export const translations = {
       placeLabel: "Lloc",
       placeValue: "Institut Poblenou",
       donateButton: "Fes una donacio",
+      discoverButton: "Descobreix",
+      countdownDateText: "La fira es el 23 d'abril de 2026",
+      countdownLabels: {
+        days: "Dies",
+        hours: "Hores",
+        minutes: "Min",
+        seconds: "Seg",
+      },
     },
     about: {
       title: "Que es la fira?",
       description:
-        "La I Fira Solidaria de l'Institut Poblenou es una oportunitat per aprendre, collaborar i transformar. Un projecte que uneix cicles, fomenta valors i genera impacte real a la comunitat.",
+        "La Fira Solidaria de l'Institut Poblenou es una oportunitat per aprendre, collaborar i transformar. Un projecte que uneix cicles, fomenta valors i genera impacte real a la comunitat.",
+      badge: "Sobre la fira",
+      madeByLabel: "Fet per",
+      madeByValue: "Institut Poblenou",
+      locationLabel: "La fira es fara a",
+      locationValue: "Institut Poblenou (Google Maps)",
     },
     activities: {
       title: "Que hi trobaras?",
@@ -60,6 +78,11 @@ export const translations = {
     },
   },
   es: {
+    nav: {
+      home: "Inicio",
+      fair: "La Feria",
+      arep: "AREP",
+    },
     controls: {
       toggleTheme: "Cambiar modo claro/oscuro",
     },
@@ -73,11 +96,24 @@ export const translations = {
       placeLabel: "Lugar",
       placeValue: "Institut Poblenou",
       donateButton: "Haz una donacion",
+      discoverButton: "Descubre",
+      countdownDateText: "La feria es el 23 de abril de 2026",
+      countdownLabels: {
+        days: "Dias",
+        hours: "Horas",
+        minutes: "Min",
+        seconds: "Seg",
+      },
     },
     about: {
       title: "Que es la feria?",
       description:
-        "La I Feria Solidaria del Institut Poblenou es una oportunidad para aprender, colaborar y transformar. Un proyecto que une ciclos, fomenta valores y genera un impacto real en la comunidad.",
+        "La Feria Solidaria del Institut Poblenou es una oportunidad para aprender, colaborar y transformar. Un proyecto que une ciclos, fomenta valores y genera un impacto real en la comunidad.",
+      badge: "Sobre la feria",
+      madeByLabel: "Hecho por",
+      madeByValue: "Institut Poblenou",
+      locationLabel: "La feria sera en",
+      locationValue: "Institut Poblenou (Google Maps)",
     },
     activities: {
       title: "Que encontraras?",
@@ -118,6 +154,11 @@ export const translations = {
     },
   },
   en: {
+    nav: {
+      home: "Home",
+      fair: "The Fair",
+      arep: "AREP",
+    },
     controls: {
       toggleTheme: "Switch light/dark mode",
     },
@@ -131,11 +172,24 @@ export const translations = {
       placeLabel: "Place",
       placeValue: "Institut Poblenou",
       donateButton: "Make a donation",
+      discoverButton: "Discover",
+      countdownDateText: "The fair will take place on April 23, 2026",
+      countdownLabels: {
+        days: "Days",
+        hours: "Hours",
+        minutes: "Min",
+        seconds: "Sec",
+      },
     },
     about: {
       title: "What is the fair?",
       description:
         "The first solidarity fair at Institut Poblenou is an opportunity to learn, collaborate, and transform. A project that connects study paths, promotes values, and generates real community impact.",
+      badge: "About the fair",
+      madeByLabel: "Made by",
+      madeByValue: "Institut Poblenou",
+      locationLabel: "The fair will be at",
+      locationValue: "Institut Poblenou (Google Maps)",
     },
     activities: {
       title: "What will you find?",

@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'motion/react';
-import { MapPin, ArrowRight, Clock3, ExternalLink } from 'lucide-react';
-import { Button } from './ui/button';
+import { motion } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import heroLogoSrc from '../../assets/images/logo-reciclaje-rosa.png?url';
 
 type HeroContent = {
@@ -13,10 +12,18 @@ type HeroContent = {
   placeLabel: string;
   placeValue: string;
   donateButton: string;
+  discoverButton: string;
+  countdownDateText: string;
+  countdownLabels: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
 };
 
 export function Hero({ content }: { content: HeroContent }) {
-  const targetDate = useMemo(() => new Date('2026-04-23T09:00:00'), []);
+  const targetDate = useMemo(() => new Date("2026-04-23T10:00:00"), []);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
@@ -36,126 +43,92 @@ export function Hero({ content }: { content: HeroContent }) {
     return () => clearInterval(interval);
   }, [targetDate]);
 
-  const countdownItems = [
-    { label: 'Dias', value: timeLeft.days },
-    { label: 'Horas', value: timeLeft.hours },
-    { label: 'Min', value: timeLeft.minutes },
-    { label: 'Seg', value: timeLeft.seconds },
-  ];
-  const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Institut+Poblenou+Barcelona';
+  const donateUrl = "https://www.arep.cat/collabora/#donatiu";
 
   return (
-    <section className="relative overflow-hidden pt-28 pb-14">
-      <motion.div
-        className="absolute -top-32 -left-16 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl"
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.45, 0.2] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#e8f1ff] via-[#eef6fb] to-[#edf8f2] dark:from-[#0f172a] dark:via-[#0f1b32] dark:to-[#102028] transition-colors duration-700">
+      <div
+        className="absolute inset-0 pointer-events-none bg-center bg-cover bg-no-repeat opacity-[0.16] dark:opacity-[0.12]"
+        style={{ backgroundImage: "url('/images/hero-fira-bg.png')" }}
       />
-      <motion.div
-        className="absolute -bottom-32 right-0 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl"
-        animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.35, 0.2] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-      />
-
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-8 lg:grid-cols-12">
-        <div className="order-2 lg:order-1 lg:col-span-7">
-          <motion.article
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="h-full rounded-[2.2rem] border-2 border-slate-900 bg-[#f6fbff] p-7 shadow-[8px_8px_0_0_#0f172a] dark:border-blue-300 dark:bg-slate-900 dark:shadow-[8px_8px_0_0_#93c5fd] md:p-10"
-          >
-            <div className="mb-5 inline-flex rounded-full border-2 border-slate-900 bg-amber-200 px-4 py-1 text-xs uppercase tracking-[0.2em] text-slate-900 dark:border-blue-300 dark:bg-blue-900 dark:text-blue-100">
-              Edicion Sant Jordi
-            </div>
-            <div className="grid items-center gap-10 md:grid-cols-[auto,1fr]">
-              <motion.img
-                src={heroLogoSrc}
-                alt="Símbol de reciclatge amb rosa — identitat RE-VIU"
-                className="mx-auto w-52 object-contain drop-shadow-2xl md:w-64"
-                width={320}
-                height={320}
-                decoding="async"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
-              />
-              <div className="space-y-5 text-center md:text-left">
-                <h1 className="text-4xl uppercase text-slate-900 dark:text-slate-100 md:text-6xl">{content.title}</h1>
-                <div className="flex flex-wrap justify-center gap-2 md:justify-start">
-                  {content.words.map((word) => (
-                    <span
-                      key={word}
-                      className="rounded-md border-2 border-slate-900 bg-white px-4 py-2 text-base uppercase text-slate-900 dark:border-blue-300 dark:bg-slate-800 dark:text-blue-200"
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </div>
-                <p className="max-w-2xl text-lg leading-relaxed text-slate-700 dark:text-slate-300">{content.description}</p>
-                <Button
-                  size="lg"
-                  className="h-12 rounded-md border-2 border-slate-900 bg-emerald-400 px-8 text-base font-semibold text-slate-900 hover:bg-emerald-300 dark:border-blue-300 dark:bg-blue-500 dark:text-white dark:hover:bg-blue-400"
-                >
-                  {content.donateButton.toUpperCase()}
-                  <ArrowRight size={18} />
-                </Button>
-              </div>
-            </div>
-          </motion.article>
-        </div>
-
-        <div className="order-1 lg:order-2 lg:col-span-5">
-          <motion.aside
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.25 }}
-            className="h-full rounded-[2.2rem] border-2 border-slate-900 bg-white p-6 text-slate-900 shadow-[8px_8px_0_0_#0f172a] dark:border-blue-300 dark:bg-slate-900 dark:text-slate-100 dark:shadow-[8px_8px_0_0_#93c5fd]"
-          >
-            <div className="mb-2 flex items-center gap-2 text-blue-700 dark:text-blue-300">
-              <Clock3 size={18} />
-              <p className="text-sm uppercase tracking-[0.22em]">Cuenta atras oficial</p>
-            </div>
-            <p className="mb-5 text-sm text-slate-600 dark:text-slate-300">La feria es el 23 de abril</p>
-            <div className="grid grid-cols-2 gap-3">
-              {countdownItems.map((item) => (
-                <div key={item.label} className="rounded-xl border-2 border-slate-900 bg-slate-100 p-4 text-center dark:border-slate-600 dark:bg-slate-800">
-                  <p className="text-3xl">{String(item.value).padStart(2, '0')}</p>
-                  <p className="text-xs uppercase tracking-widest text-slate-600 dark:text-slate-300">{item.label}</p>
-                </div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-6 rounded-xl border-2 border-slate-900 bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-800"
-            >
-              <p className="text-xs uppercase tracking-wide text-slate-600 dark:text-slate-300">{content.placeLabel}</p>
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 flex items-center gap-2 text-lg font-medium text-blue-700 underline-offset-4 hover:underline dark:text-blue-300"
-              >
-                <MapPin size={18} className="text-emerald-500" />
-                {content.placeValue}
-                <ExternalLink size={16} />
-              </a>
-            </motion.div>
-          </motion.aside>
-        </div>
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#e8f1ff]/85 via-[#eef6fb]/80 to-[#edf8f2]/88 dark:from-[#0f172a]/88 dark:via-[#0f1b32]/86 dark:to-[#102028]/90" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="aurora-blob-1 absolute top-[5%] left-[10%] w-[500px] h-[500px] rounded-full blur-[130px]" style={{ background: "radial-gradient(circle, rgba(10,111,190,0.12) 0%, transparent 70%)" }} />
+        <div className="aurora-blob-2 absolute bottom-[10%] right-[5%] w-[450px] h-[450px] rounded-full blur-[120px]" style={{ background: "radial-gradient(circle, rgba(111,167,111,0.12) 0%, transparent 70%)" }} />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1 }}
-        className="mt-10 flex justify-center"
-      >
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
-          <ArrowRight className="rotate-90 text-slate-500 dark:text-slate-400" size={30} />
+      <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7 }} className="mb-5">
+          <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="relative">
+            <div className="absolute inset-0 blur-[40px]" style={{ background: "radial-gradient(circle, rgba(10,111,190,0.35), transparent 70%)", opacity: 0.15 }} />
+            <img src={heroLogoSrc} alt="RE-VIU" className="relative w-24 h-24 md:w-32 md:h-32 object-contain" width={128} height={128} decoding="async" />
+          </motion.div>
+        </motion.div>
+
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="text-4xl md:text-6xl lg:text-7xl leading-[0.95] mb-4 text-slate-800 dark:text-white">
+          {content.title}
+        </motion.h1>
+
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }} className="flex items-center gap-3 md:gap-4 mb-4">
+          {content.words.map((word, i) => (
+            <span key={word} className="flex items-center gap-3 md:gap-4">
+              <span className="holo-text text-lg md:text-2xl">{word}</span>
+              {i < content.words.length - 1 && <span className="w-1 h-1 rounded-full bg-[#0A6FBE]/40" />}
+            </span>
+          ))}
+        </motion.div>
+
+        <motion.p initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }} className="max-w-lg text-sm md:text-base leading-relaxed mb-6 text-slate-500 dark:text-slate-300">
+          {content.description}
+        </motion.p>
+
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.45 }} className="flex items-center gap-2 md:gap-3 mb-3">
+          {[
+            { label: content.countdownLabels.days, value: timeLeft.days },
+            { label: content.countdownLabels.hours, value: timeLeft.hours },
+            { label: content.countdownLabels.minutes, value: timeLeft.minutes },
+            { label: content.countdownLabels.seconds, value: timeLeft.seconds },
+          ].map((unit, index) => (
+            <div key={unit.label} className="flex items-center gap-2">
+              <div className="rounded-xl px-3 py-2 min-w-[56px] md:min-w-[68px] text-center bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10">
+                <span className="countdown-digit text-2xl md:text-3xl block text-[#0A6FBE] dark:text-white">{String(unit.value).padStart(2, "0")}</span>
+                <span className="text-[9px] uppercase tracking-[0.15em] mt-1.5 block text-slate-400 dark:text-slate-300">{unit.label}</span>
+              </div>
+              {index < 3 && <span className="text-xl text-slate-300 dark:text-slate-500">:</span>}
+            </div>
+          ))}
+        </motion.div>
+
+        <p className="mb-4 text-xs uppercase tracking-[0.15em] text-slate-500 dark:text-slate-300">{content.countdownDateText}</p>
+
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.55 }} className="flex flex-wrap items-center justify-center gap-2 mb-6">
+          <span className="px-4 py-2 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 dark:bg-white/5 dark:border-white/10 dark:text-slate-300">
+            {content.dateValue}
+          </span>
+          <span className="px-4 py-2 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-600 dark:bg-white/5 dark:border-white/10 dark:text-slate-300">
+            {content.placeValue}
+          </span>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.65 }} className="flex items-center gap-3">
+          <a
+            href={donateUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-glass text-sm px-7 py-3 rounded-full font-semibold text-white cursor-pointer"
+            style={{ background: "rgba(10,111,190,0.85)", border: "1px solid rgba(10,111,190,0.9)" }}
+          >
+            {content.donateButton}
+          </a>
+          <a href="#about" className="px-7 py-3 rounded-full text-sm font-semibold cursor-pointer text-slate-600 border border-slate-200 dark:text-slate-300 dark:border-white/10">
+            {content.discoverButton}
+          </a>
+        </motion.div>
+      </div>
+
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="absolute bottom-6 left-1/2 -translate-x-1/2">
+        <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
+          <ChevronDown size={20} className="text-slate-400 dark:text-slate-500" />
         </motion.div>
       </motion.div>
     </section>

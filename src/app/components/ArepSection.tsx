@@ -31,9 +31,10 @@ type ArepContent = {
 export function ArepSection({ content }: { content: ArepContent }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const donateUrl = 'https://www.arep.cat/collabora/#donatiu';
 
   return (
-    <section ref={ref}>
+    <section id="arep" ref={ref}>
       <motion.article
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -62,11 +63,14 @@ export function ArepSection({ content }: { content: ArepContent }) {
         </div>
 
         <Button
+          asChild
           size="lg"
           className="mt-5 w-full rounded-md border-2 border-slate-900 text-base font-semibold text-white hover:opacity-95 dark:border-blue-300"
           style={{ backgroundColor: '#9E2A9E' }}
         >
-          {content.donateButton}
+          <a href={donateUrl} target="_blank" rel="noreferrer">
+            {content.donateButton}
+          </a>
         </Button>
       </motion.article>
     </section>
