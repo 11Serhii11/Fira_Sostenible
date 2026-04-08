@@ -10,7 +10,7 @@ import { Lang, translations } from "../translations";
 
 function App() {
   const [lang, setLang] = useState<Lang>("ca");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const t = translations[lang];
 
   useEffect(() => {
